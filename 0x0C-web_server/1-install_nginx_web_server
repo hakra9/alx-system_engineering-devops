@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Installs Nginx
+
+sudo apt-get update -y
+sudo apt-get install nginx -y
+sudo sed -i 's/^\(listen\s*\)[^;]*$/\180/' /etc/nginx/sites-available/default
+sudo /etc/init.d/nginx restart
+echo "<!DOCTYPE html><html><head><title>Hello World!</title></head><body><p>Hello World!</p></body></html>" | sudo tee /var/www/html/index.html > /dev/null
+sudo nginx -t && sudo /etc/init.d/nginx reload
