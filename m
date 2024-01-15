@@ -1,0 +1,3 @@
+mmm
+:wq
+git add
