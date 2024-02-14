@@ -1,34 +1,20 @@
 #!/usr/bin/python3
+""" Module - 0-gather_data_from_an_API"""
 
-"""
-importing requests module
-"""
-
-from requests import get
+import requests
 
 
 def top_ten(subreddit):
-    """
-    function that queries the Reddit API and prints the titles of the first
-    10 hot posts listed for a given subreddit
-    """
+    """function that queries the Reddit API and prints the titles of
+    the first 10 hot posts listed for a given subreddit."""
 
-    if subreddit is None or not isinstance(subreddit, str):
-        print("None")
+    headers = {'User-Agent': 'DiegoOrejuela'}
+    response = requests.get("https://www.reddit.com/r/{}/hot/.json".
+                            format(subreddit), headers=headers)
 
-    user_agent = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
-    params = {'limit': 10}
-    url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
-
-    response = get(url, headers=user_agent, params=params)
-    all_data = response.json()
-
-    try:
-        raw1 = all_data.get('data').get('children')
-
-        for i in raw1:
-            print(i.get('data').get('title'))
-
-    except:
-        print("None")
-
+    if response:
+        children = response.json().get("data").get("children")
+        for i in range(10):
+            print(children[i].get("data").get("title"))
+    else:
+        print(None)
